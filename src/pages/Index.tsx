@@ -202,72 +202,72 @@ const Index = () => {
                         <BarChart3 className="h-4 w-4" />
                       </TabsTrigger>
                     </TabsList>
+                    
+                    <TabsContent value="grid">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {sortedProperties.map((property) => (
+                          <PropertyCard 
+                            key={property.id} 
+                            property={property} 
+                            onViewDetails={handleViewDetails}
+                          />
+                        ))}
+                        
+                        {sortedProperties.length === 0 && (
+                          <div className="col-span-full p-8 text-center bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+                            <BadgeDollarSign className="mx-auto h-12 w-12 text-gray-400 mb-4" />
+                            <h3 className="text-lg font-medium mb-2">No properties found</h3>
+                            <p className="text-gray-600 dark:text-gray-400 mb-4">
+                              Try adjusting your filters to see more results
+                            </p>
+                            <Button 
+                              variant="outline" 
+                              onClick={() => handleFilterChange({
+                                priceRange: [0, 2000000],
+                                location: [],
+                                propertyType: [],
+                                distressType: [],
+                                bedrooms: [],
+                                bathrooms: [],
+                                investmentScoreMin: 0,
+                                capRateMin: 0
+                              })}
+                            >
+                              Reset Filters
+                            </Button>
+                          </div>
+                        )}
+                      </div>
+                    </TabsContent>
+                    
+                    <TabsContent value="map">
+                      <PropertyMap 
+                        properties={sortedProperties} 
+                        onSelectProperty={handleViewDetails}
+                      />
+                    </TabsContent>
+                    
+                    <TabsContent value="analytics">
+                      <div className="bg-white dark:bg-gray-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
+                        <h3 className="text-lg font-medium mb-4">Investment Analytics Dashboard</h3>
+                        <p className="text-gray-600 dark:text-gray-400 mb-6">
+                          In a full implementation, this view would show charts and analytics about the current property market, 
+                          including price trends, distressed property availability by location, and investment opportunity metrics.
+                        </p>
+                        
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                          <div className="bg-gray-100 dark:bg-gray-700 rounded-lg p-4 h-48 flex items-center justify-center">
+                            <BarChart3 className="h-16 w-16 text-gray-400" />
+                          </div>
+                          <div className="bg-gray-100 dark:bg-gray-700 rounded-lg p-4 h-48 flex items-center justify-center">
+                            <PieChart className="h-16 w-16 text-gray-400" />
+                          </div>
+                        </div>
+                      </div>
+                    </TabsContent>
                   </Tabs>
                 </div>
               </div>
-              
-              <TabsContent value="grid" className="mt-0">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {sortedProperties.map((property) => (
-                    <PropertyCard 
-                      key={property.id} 
-                      property={property} 
-                      onViewDetails={handleViewDetails}
-                    />
-                  ))}
-                  
-                  {sortedProperties.length === 0 && (
-                    <div className="col-span-full p-8 text-center bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
-                      <BadgeDollarSign className="mx-auto h-12 w-12 text-gray-400 mb-4" />
-                      <h3 className="text-lg font-medium mb-2">No properties found</h3>
-                      <p className="text-gray-600 dark:text-gray-400 mb-4">
-                        Try adjusting your filters to see more results
-                      </p>
-                      <Button 
-                        variant="outline" 
-                        onClick={() => handleFilterChange({
-                          priceRange: [0, 2000000],
-                          location: [],
-                          propertyType: [],
-                          distressType: [],
-                          bedrooms: [],
-                          bathrooms: [],
-                          investmentScoreMin: 0,
-                          capRateMin: 0
-                        })}
-                      >
-                        Reset Filters
-                      </Button>
-                    </div>
-                  )}
-                </div>
-              </TabsContent>
-              
-              <TabsContent value="map" className="mt-0">
-                <PropertyMap 
-                  properties={sortedProperties} 
-                  onSelectProperty={handleViewDetails}
-                />
-              </TabsContent>
-              
-              <TabsContent value="analytics" className="mt-0">
-                <div className="bg-white dark:bg-gray-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
-                  <h3 className="text-lg font-medium mb-4">Investment Analytics Dashboard</h3>
-                  <p className="text-gray-600 dark:text-gray-400 mb-6">
-                    In a full implementation, this view would show charts and analytics about the current property market, 
-                    including price trends, distressed property availability by location, and investment opportunity metrics.
-                  </p>
-                  
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div className="bg-gray-100 dark:bg-gray-700 rounded-lg p-4 h-48 flex items-center justify-center">
-                      <BarChart3 className="h-16 w-16 text-gray-400" />
-                    </div>
-                    <div className="bg-gray-100 dark:bg-gray-700 rounded-lg p-4 h-48 flex items-center justify-center">
-                      <PieChart className="h-16 w-16 text-gray-400" />
-                    </div>
-                  </div>
-                </div>
-              </TabsContent>
             </div>
           </div>
         </div>
