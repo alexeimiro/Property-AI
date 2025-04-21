@@ -108,8 +108,7 @@ export function Header() {
           height: '100%', 
           display: 'flex', 
           flexDirection: 'column',
-          maxHeight: '-webkit-fill-available',
-          paddingBottom: 'env(safe-area-inset-bottom, 16px)'
+          maxHeight: '100vh'
         }}
       >
         <div className="flex items-center justify-between h-16 px-4 border-b">
@@ -158,10 +157,13 @@ export function Header() {
             >
               Resources
             </a>
-            <Button variant="default" className="w-full mobile-touch-target">
+          </nav>
+        </div>
+        
+        <div className="p-4 border-t">
+          <Button variant="default" className="w-full mobile-touch-target">
             Sign In
           </Button>
-          </nav>
         </div>
       </div>
     </header>
