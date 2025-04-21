@@ -157,13 +157,10 @@ export function Header() {
             >
               Resources
             </a>
-          </nav>
-        </div>
-        
-        <div className="p-4 border-t">
-          <Button variant="default" className="w-full mobile-touch-target">
+           <Button variant="default" className="w-full mobile-touch-target">
             Sign In
-          </Button>
+          </Button> 
+          </nav>
         </div>
       </div>
     </header>
