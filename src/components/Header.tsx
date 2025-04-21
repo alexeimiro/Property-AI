@@ -1,118 +1,109 @@
-
-import { useState } from "react";
-import { 
-  Home, 
-  Search, 
-  Map, 
-  BellRing, 
-  User, 
-  Settings,
-  Menu,
-  X
-} from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { useIsMobile } from "@/hooks/use-mobile";
+import { ModeToggle } from "@/components/ui/mode-toggle";
+import { Search, Bell, Menu, X } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { useState } from "react";
 
 export function Header() {
-  const isMobile = useIsMobile();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
-
-  const navItems = [
-    { name: "Dashboard", icon: <Home className="w-4 h-4 mr-2" />, href: "/" },
-    { name: "Search", icon: <Search className="w-4 h-4 mr-2" />, href: "#search" },
-    { name: "Map View", icon: <Map className="w-4 h-4 mr-2" />, href: "#map" },
-  ];
-
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  
   return (
-    <header className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 sticky top-0 z-40">
-      <div className="container mx-auto px-4 py-3 flex items-center justify-between">
-        <div className="flex items-center">
-          <a href="/" className="flex items-center">
-            <div className="w-8 h-8 rounded bg-brand-500 flex items-center justify-center mr-2">
-              <span className="text-white font-bold">D</span>
-            </div>
-            <span className="font-bold text-xl text-gray-900 dark:text-white">DistressedAssetAI</span>
-          </a>
-        </div>
-
-        {isMobile ? (
-          <>
-            <Button variant="ghost" size="icon" onClick={toggleMenu}>
-              {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-            </Button>
-            
-            {isMenuOpen && (
-              <div className="absolute top-16 left-0 right-0 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 py-4 px-4 shadow-lg z-30">
-                <nav className="flex flex-col space-y-4">
-                  {navItems.map((item) => (
-                    <a
-                      key={item.name}
-                      href={item.href}
-                      className="flex items-center px-3 py-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-                      onClick={() => setIsMenuOpen(false)}
-                    >
-                      {item.icon}
-                      {item.name}
-                    </a>
-                  ))}
-                </nav>
-              </div>
+    <header className="sticky top-0 z-50 w-full border-b bg-background">
+      <div className="container flex h-16 items-center justify-between">
+        <div className="flex items-center gap-2">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="md:hidden mobile-touch-target"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          >
+            {isMobileMenuOpen ? (
+              <X className="h-5 w-5" />
+            ) : (
+              <Menu className="h-5 w-5" />
             )}
-          </>
-        ) : (
-          <nav className="flex-1 flex items-center justify-center">
-            <ul className="flex space-x-1">
-              {navItems.map((item) => (
-                <li key={item.name}>
-                  <a
-                    href={item.href}
-                    className="flex items-center px-3 py-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-                  >
-                    {item.icon}
-                    {item.name}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </nav>
-        )}
-
-        <div className="flex items-center space-x-1">
-          <Button variant="ghost" size="icon">
-            <BellRing className="h-5 w-5" />
           </Button>
           
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon">
-                <User className="h-5 w-5" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-56">
-              <DropdownMenuLabel>My Account</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>Profile</DropdownMenuItem>
-              <DropdownMenuItem>Saved Properties</DropdownMenuItem>
-              <DropdownMenuItem>
-                <Settings className="mr-2 h-4 w-4" />
-                <span>Settings</span>
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>Sign out</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <a href="/" className="flex items-center space-x-2">
+            <span className="text-xl font-bold text-brand-600 dark:text-brand-400">
+              Distressed<span className="text-foreground">AI</span>
+            </span>
+          </a>
+        </div>
+        
+        <div className="hidden md:flex items-center space-x-6">
+          <a href="/" className="text-sm font-medium transition-colors hover:text-brand-600">
+            Dashboard
+          </a>
+          <a href="#" className="text-sm font-medium text-muted-foreground transition-colors hover:text-brand-600">
+            Properties
+          </a>
+          <a href="#" className="text-sm font-medium text-muted-foreground transition-colors hover:text-brand-600">
+            Analytics
+          </a>
+          <a href="#" className="text-sm font-medium text-muted-foreground transition-colors hover:text-brand-600">
+            Watchlist
+          </a>
+          <a href="#" className="text-sm font-medium text-muted-foreground transition-colors hover:text-brand-600">
+            Resources
+          </a>
+        </div>
+        
+        <div className="flex items-center space-x-2">
+          <div className="hidden md:flex relative">
+            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
+            <Input
+              type="search"
+              placeholder="Search..."
+              className="w-64 pl-8"
+            />
+          </div>
+          
+          <Button variant="ghost" size="icon" className="mobile-touch-target">
+            <Bell className="h-5 w-5" />
+          </Button>
+          
+          <ModeToggle />
+          
+          <Button variant="default" size="sm" className="hidden md:flex">
+            Sign In
+          </Button>
+          
+          <div className="flex md:hidden">
+            <Button variant="ghost" size="icon" className="mobile-touch-target">
+              <Search className="h-5 w-5" />
+            </Button>
+          </div>
         </div>
       </div>
+      
+      {/* Mobile menu */}
+      {isMobileMenuOpen && (
+        <div className="md:hidden border-t pb-3 pt-2 px-4">
+          <nav className="flex flex-col space-y-3">
+            <a href="/" className="flex items-center py-2 text-base font-medium text-brand-600">
+              Dashboard
+            </a>
+            <a href="#" className="flex items-center py-2 text-base font-medium text-muted-foreground">
+              Properties
+            </a>
+            <a href="#" className="flex items-center py-2 text-base font-medium text-muted-foreground">
+              Analytics
+            </a>
+            <a href="#" className="flex items-center py-2 text-base font-medium text-muted-foreground">
+              Watchlist
+            </a>
+            <a href="#" className="flex items-center py-2 text-base font-medium text-muted-foreground">
+              Resources
+            </a>
+            <div className="pt-2">
+              <Button variant="default" className="w-full mobile-touch-target">
+                Sign In
+              </Button>
+            </div>
+          </nav>
+        </div>
+      )}
     </header>
   );
 }

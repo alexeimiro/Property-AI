@@ -1,4 +1,3 @@
-
 import {
   Card,
   CardContent,
@@ -11,90 +10,89 @@ import {
   Star, 
   Activity, 
   Calendar,
-  MapPin
+  MapPin,
+  DollarSign,
+  Home,
+  ArrowUpRight,
+  ArrowDownRight,
+  Percent
 } from "lucide-react";
 import { DashboardStats as DashboardStatsType } from "@/types";
 
+interface DashboardStat {
+  title: string;
+  value: string | number;
+  change: {
+    value: string | number;
+    positive: boolean;
+  };
+  icon: "dollar" | "trend" | "home" | "discount";
+}
+
 interface DashboardStatsProps {
-  stats: DashboardStatsType;
+  stats: DashboardStat[];
 }
 
 export function DashboardStats({ stats }: DashboardStatsProps) {
-  return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between pb-2">
-          <CardTitle className="text-sm font-medium">Total Opportunities</CardTitle>
-          <Activity className="h-4 w-4 text-brand-500" />
-        </CardHeader>
-        <CardContent>
-          <div className="text-2xl font-bold">{stats.totalProperties}</div>
-          <p className="text-xs text-muted-foreground">
-            Available distressed properties
-          </p>
-        </CardContent>
-      </Card>
-      
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between pb-2">
-          <CardTitle className="text-sm font-medium">Avg. Discount</CardTitle>
-          <TrendingUp className="h-4 w-4 text-green-500" />
-        </CardHeader>
-        <CardContent>
-          <div className="text-2xl font-bold">{stats.averageDiscount.toFixed(1)}%</div>
-          <p className="text-xs text-muted-foreground">
-            Below market value
-          </p>
-        </CardContent>
-      </Card>
-      
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between pb-2">
-          <CardTitle className="text-sm font-medium">Avg. Investment Score</CardTitle>
-          <Star className="h-4 w-4 text-amber-500" />
-        </CardHeader>
-        <CardContent>
-          <div className="text-2xl font-bold">{stats.averageInvestmentScore.toFixed(1)}</div>
-          <p className="text-xs text-muted-foreground">
-            Out of 100 possible points
-          </p>
-        </CardContent>
-      </Card>
-      
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between pb-2">
-          <CardTitle className="text-sm font-medium">New Today</CardTitle>
-          <Calendar className="h-4 w-4 text-blue-500" />
-        </CardHeader>
-        <CardContent>
-          <div className="text-2xl font-bold">{stats.newListingsToday}</div>
-          <p className="text-xs text-muted-foreground">
-            New properties added today
-          </p>
-        </CardContent>
-      </Card>
+  if (!stats || !Array.isArray(stats) || stats.length === 0) {
+    return (
+      <div className="w-full p-4 text-center">
+        <p className="text-muted-foreground">No dashboard data available</p>
+      </div>
+    );
+  }
 
-      <Card className="md:col-span-2 lg:col-span-4">
-        <CardHeader>
-          <CardTitle>Top Markets</CardTitle>
-          <CardDescription>
-            Cities with the most distressed properties
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-            {stats.topMarkets.map((market, index) => (
-              <div key={market.name} className="flex items-center space-x-2">
-                <MapPin className="h-4 w-4 text-brand-500" />
-                <div className="space-y-1">
-                  <p className="text-sm font-medium leading-none">{market.name}</p>
-                  <p className="text-sm text-muted-foreground">{market.count} properties</p>
+  const getIcon = (type: string) => {
+    switch (type) {
+      case "dollar":
+        return <DollarSign className="h-4 w-4 sm:h-5 sm:w-5 text-white" />;
+      case "trend":
+        return <TrendingUp className="h-4 w-4 sm:h-5 sm:w-5 text-white" />;
+      case "home":
+        return <Home className="h-4 w-4 sm:h-5 sm:w-5 text-white" />;
+      case "discount":
+        return <Percent className="h-4 w-4 sm:h-5 sm:w-5 text-white" />;
+      default:
+        return <DollarSign className="h-4 w-4 sm:h-5 sm:w-5 text-white" />;
+    }
+  };
+  
+  const iconColors = {
+    "dollar": "bg-green-500 dark:bg-green-600",
+    "trend": "bg-blue-500 dark:bg-blue-600",
+    "home": "bg-purple-500 dark:bg-purple-600",
+    "discount": "bg-amber-500 dark:bg-amber-600",
+  };
+  
+  return (
+    <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4 md:gap-6 w-full overflow-hidden">
+      {stats.map((stat, index) => (
+        <Card key={index} className="border-none shadow-sm w-full overflow-hidden">
+          <CardContent className="p-3 sm:p-4 md:p-6">
+            <div className="flex justify-between items-center">
+              <div className="flex-1 min-w-0">
+                <p className="text-xs sm:text-sm text-muted-foreground mb-1 truncate">{stat.title}</p>
+                <div className="flex items-baseline space-x-1">
+                  <h3 className="text-base sm:text-lg md:text-2xl font-bold tracking-tight truncate">
+                    {stat.value}
+                  </h3>
+                  <span className={`text-[10px] sm:text-xs flex items-center whitespace-nowrap ${stat.change.positive ? 'text-green-600' : 'text-red-600'}`}>
+                    {stat.change.positive ? (
+                      <ArrowUpRight className="h-3 w-3 mr-0.5" />
+                    ) : (
+                      <ArrowDownRight className="h-3 w-3 mr-0.5" />
+                    )}
+                    {stat.change.value}
+                  </span>
                 </div>
               </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
+              <div className={`rounded-full p-1.5 sm:p-2 flex-shrink-0 ml-2 ${iconColors[stat.icon as keyof typeof iconColors]}`}>
+                {getIcon(stat.icon)}
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      ))}
     </div>
   );
 }

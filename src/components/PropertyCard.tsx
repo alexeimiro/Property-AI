@@ -1,4 +1,3 @@
-
 import { Property } from "@/types";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import {
@@ -39,24 +38,25 @@ export function PropertyCard({ property, onViewDetails }: PropertyCardProps) {
   };
 
   return (
-    <Card className="overflow-hidden h-full flex flex-col transition-all duration-200 hover:shadow-md">
+    <Card className="overflow-hidden h-full flex flex-col transition-all duration-200 hover:shadow-md property-card-mobile">
       <div className="relative">
         <img 
           src={property.images[0] || "/placeholder.svg"} 
           alt={property.title}
-          className="w-full h-48 object-cover"
+          className="w-full h-40 sm:h-48 object-cover"
+          loading="lazy"
         />
         <div className="absolute top-2 left-2">
-          <Badge className={`${distressTypeColors[property.distressType]} capitalize`}>
+          <Badge className={`${distressTypeColors[property.distressType]} capitalize text-xs sm:text-sm`}>
             {property.distressType.replace('-', ' ')}
           </Badge>
         </div>
         <div className="absolute top-2 right-2">
-          <Badge className="bg-brand-500 text-white">
+          <Badge className="bg-brand-500 text-white text-xs sm:text-sm">
             {property.discountPercentage.toFixed(1)}% Off
           </Badge>
         </div>
-        <div className="absolute bottom-2 right-2 bg-black/70 text-white text-sm px-2 py-1 rounded">
+        <div className="absolute bottom-2 right-2 bg-black/70 text-white text-xs sm:text-sm px-2 py-1 rounded">
           <div className={`flex items-center ${getScoreColor(property.investmentScore)}`}>
             <TrendingUp className="h-3 w-3 mr-1" />
             <span>{property.investmentScore}</span>
@@ -64,76 +64,76 @@ export function PropertyCard({ property, onViewDetails }: PropertyCardProps) {
         </div>
       </div>
       
-      <CardContent className="pt-4 flex-grow">
-        <h3 className="font-bold text-lg mb-1 truncate">{property.title}</h3>
+      <CardContent className="pt-3 sm:pt-4 flex-grow p-3 sm:p-4">
+        <h3 className="font-bold text-base sm:text-lg mb-1 truncate">{property.title}</h3>
         
-        <div className="flex items-center text-muted-foreground mb-3">
-          <MapPin className="h-3 w-3 mr-1" />
-          <span className="text-sm truncate">
+        <div className="flex items-center text-muted-foreground mb-2 sm:mb-3">
+          <MapPin className="h-3 w-3 mr-1 flex-shrink-0" />
+          <span className="text-xs sm:text-sm truncate">
             {property.city}, {property.state}
           </span>
         </div>
         
-        <div className="text-xl font-bold mb-3 text-brand-600 dark:text-brand-400">
+        <div className="text-lg sm:text-xl font-bold mb-2 sm:mb-3 text-brand-600 dark:text-brand-400">
           {formatCurrency(property.price)}
-          <span className="text-sm font-normal text-muted-foreground ml-1 line-through">
+          <span className="text-xs sm:text-sm font-normal text-muted-foreground ml-1 line-through">
             {formatCurrency(property.originalPrice)}
           </span>
         </div>
         
-        <div className="grid grid-cols-3 gap-2 mb-3">
+        <div className="grid grid-cols-3 gap-1 sm:gap-2 mb-2 sm:mb-3">
           <div className="flex flex-col items-center p-1 bg-gray-50 dark:bg-gray-800 rounded">
-            <div className="flex items-center text-muted-foreground mb-1">
-              <Bed className="h-3 w-3 mr-1" />
+            <div className="flex items-center text-muted-foreground mb-0.5 sm:mb-1">
+              <Bed className="h-3 w-3 mr-0.5 sm:mr-1" />
               <span className="text-xs">Beds</span>
             </div>
-            <span className="font-medium">{property.bedrooms}</span>
+            <span className="font-medium text-xs sm:text-sm">{property.bedrooms}</span>
           </div>
           
           <div className="flex flex-col items-center p-1 bg-gray-50 dark:bg-gray-800 rounded">
-            <div className="flex items-center text-muted-foreground mb-1">
-              <Bath className="h-3 w-3 mr-1" />
+            <div className="flex items-center text-muted-foreground mb-0.5 sm:mb-1">
+              <Bath className="h-3 w-3 mr-0.5 sm:mr-1" />
               <span className="text-xs">Baths</span>
             </div>
-            <span className="font-medium">{property.bathrooms}</span>
+            <span className="font-medium text-xs sm:text-sm">{property.bathrooms}</span>
           </div>
           
           <div className="flex flex-col items-center p-1 bg-gray-50 dark:bg-gray-800 rounded">
-            <div className="flex items-center text-muted-foreground mb-1">
-              <Home className="h-3 w-3 mr-1" />
+            <div className="flex items-center text-muted-foreground mb-0.5 sm:mb-1">
+              <Home className="h-3 w-3 mr-0.5 sm:mr-1" />
               <span className="text-xs">SqFt</span>
             </div>
-            <span className="font-medium">{property.sqft.toLocaleString()}</span>
+            <span className="font-medium text-xs sm:text-sm">{property.sqft.toLocaleString()}</span>
           </div>
         </div>
         
-        <div className="grid grid-cols-2 gap-2 text-sm">
+        <div className="grid grid-cols-2 gap-1 sm:gap-2 text-xs sm:text-sm">
           <div className="flex items-center">
-            <Building className="h-3 w-3 mr-1 text-muted-foreground" />
-            <span>{property.propertyType}</span>
+            <Building className="h-3 w-3 mr-1 text-muted-foreground flex-shrink-0" />
+            <span className="truncate">{property.propertyType}</span>
           </div>
           
           <div className="flex items-center">
-            <Calendar className="h-3 w-3 mr-1 text-muted-foreground" />
-            <span>{new Date(property.listedDate).toLocaleDateString()}</span>
+            <Calendar className="h-3 w-3 mr-1 text-muted-foreground flex-shrink-0" />
+            <span className="truncate">{new Date(property.listedDate).toLocaleDateString()}</span>
           </div>
           
           <div className="flex items-center">
-            <Tag className="h-3 w-3 mr-1 text-muted-foreground" />
-            <span>Cap Rate: {property.capRate}%</span>
+            <Tag className="h-3 w-3 mr-1 text-muted-foreground flex-shrink-0" />
+            <span className="truncate">Cap Rate: {property.capRate}%</span>
           </div>
           
           <div className="flex items-center">
-            <TrendingUp className="h-3 w-3 mr-1 text-muted-foreground" />
-            <span>Est. ROI: {property.estimatedRoi}%</span>
+            <TrendingUp className="h-3 w-3 mr-1 text-muted-foreground flex-shrink-0" />
+            <span className="truncate">Est. ROI: {property.estimatedRoi}%</span>
           </div>
         </div>
       </CardContent>
       
-      <CardFooter className="pt-0">
+      <CardFooter className="pt-0 p-3 sm:p-4">
         <Button 
           onClick={() => onViewDetails(property)} 
-          className="w-full bg-brand-500 hover:bg-brand-600"
+          className="w-full bg-brand-500 hover:bg-brand-600 mobile-touch-target text-sm sm:text-base"
         >
           View Details
         </Button>
