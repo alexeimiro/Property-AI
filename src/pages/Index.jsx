@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Header } from "@/components/Header";
+import { Hero } from "@/components/Hero";
 import { DashboardStats } from "@/components/DashboardStats";
 import { PropertyCard } from "@/components/PropertyCard";
 import { PropertyDetailsModal } from "@/components/PropertyDetailsModal";
@@ -170,6 +171,7 @@ const Index = () => {
   return (
     <div className="flex flex-col min-h-screen bg-gray-50 dark:bg-gray-900 mobile-overflow-fix">
       <Header />
+      <Hero />
       
       <main className="flex-1 pb-16 md:pb-0">
         <div className="container mx-auto py-3 sm:py-6">
