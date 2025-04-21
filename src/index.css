@@ -118,9 +118,7 @@
   
   /* Bottom navigation for mobile */
   .mobile-nav {
-    /* sticky nav at bottom, supports iOS safe area */
-    @apply sticky bottom-0 left-0 right-0 bg-background border-t border-border py-2 px-4 flex justify-around items-center z-50;
-    padding-bottom: env(safe-area-inset-bottom);
+    @apply fixed bottom-0 left-0 right-0 bg-background border-t border-border py-2 px-4 flex justify-around items-center z-50;
   }
   
   /* Fullscreen modals for mobile */
@@ -145,8 +143,7 @@
   
   /* Fix for overflow issues on mobile */
   .mobile-overflow-fix {
-    /* allow vertical scroll under sticky nav */
-    @apply overflow-x-hidden overflow-y-auto max-w-full;
+    @apply overflow-x-hidden max-w-full;
   }
   
   /* Responsive text sizing */
@@ -207,6 +204,10 @@ html, body {
 /* Fix iOS position:fixed issues with keyboard */
 @supports (-webkit-touch-callout: none) {
   .mobile-nav {
-    position: sticky;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
   }
 }

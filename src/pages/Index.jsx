@@ -169,7 +169,7 @@ const Index = () => {
   ];
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-50 dark:bg-gray-900 mobile-overflow-fix">
+    <div className="flex flex-col min-h-screen bg-gray-50 dark:bg-gray-900 mobile-overflow-fix pb-16 md:pb-0">
       <Header />
       <Hero />
       
